@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         Log.e(TAG, "onFailure: ${response.message()}")
                     }
+
                 } else {
                     Log.e("LL", "Gagal")
                 }
@@ -62,15 +63,21 @@ class MainActivity : AppCompatActivity() {
             override fun onFailure(call: Call<GithubUserResponse>, t: Throwable) {
                 Log.e(TAG, "onFailure = ${t.message}")
             }
-
         })
+
     }
 
     private fun setUserData(userList: List<ItemsItem>) {
         val adapter = GithubUserAdapter()
         adapter.submitList(userList)
-        Log.d("ADAPTER", "Di sini")
         binding.userList.adapter = adapter
+
+        adapter.setOnItemClickCallback(object : GithubUserAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: ItemsItem) {
+                showClickedUser(data)
+            }
+
+        })
     }
 
     private fun searchUserData() {
@@ -86,5 +93,9 @@ class MainActivity : AppCompatActivity() {
                     false
                 }
         }
+    }
+
+    private fun showClickedUser(userList: ItemsItem) {
+        Toast.makeText(this@MainActivity, "${userList.login}", Toast.LENGTH_SHORT).show()
     }
 }

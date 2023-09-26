@@ -3,6 +3,7 @@ package com.example.githubuserlist.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,8 +11,18 @@ import com.bumptech.glide.Glide
 import com.example.githubuserlist.data.response.ItemsItem
 import com.example.githubuserlist.databinding.ActivityMainBinding
 import com.example.githubuserlist.databinding.UserListBinding
+import javax.security.auth.callback.Callback
 
 class GithubUserAdapter : ListAdapter<ItemsItem, GithubUserAdapter.MyViewHolder>(DIFF_CALLBACK) {
+    private lateinit var onItemClickCallback: OnItemClickCallback
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
+    interface OnItemClickCallback {
+        fun onItemClicked(data: ItemsItem)
+    }
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ItemsItem>() {
@@ -48,5 +59,11 @@ class GithubUserAdapter : ListAdapter<ItemsItem, GithubUserAdapter.MyViewHolder>
     override fun onBindViewHolder(holder:MyViewHolder, position: Int) {
         val userList = getItem(position)
         holder.bind(userList)
+
+        holder.itemView.setOnClickListener {
+            onItemClickCallback.onItemClicked(userList)
+        }
     }
+
+
 }
