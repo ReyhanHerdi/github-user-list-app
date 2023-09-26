@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Github User List</string>
+    <string name="github_username">Github Username</string>
+    <string name="nama_lengkap_user">Nama Lengkap User</string>
+    <string name="_0">follow</string>
+    <string name="follow">0</string>
+    <string name="followers">followers</string>
+    <string name="following">Following</string>
+    <string name="search_hint">Search for users</string>
+</resources>
