@@ -3,6 +3,7 @@ package com.example.githubuserlist
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserlist.data.response.GithubUserResponse
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
-        private const val USER_ID = "ReyhanHerdi"
+        private var USER_ID = "ReyhanHerdi"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,13 +36,11 @@ class MainActivity : AppCompatActivity() {
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.userList.addItemDecoration(itemDecoration)
 
-        findUser()
-
+        searchUserData()
     }
 
     private fun findUser() {
         val client = ApiConfig.getApiService().getGithubUser(USER_ID)
-        Log.d("GG", "Ada di dini")
         client.enqueue(object : Callback<GithubUserResponse> {
             override fun onResponse(
                 call: Call<GithubUserResponse>,
@@ -49,7 +48,6 @@ class MainActivity : AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
-                    Log.d("TR", "Di sini")
                     if (responseBody != null) {
                         setUserData(responseBody.items)
                         Log.d("IF", "Sukses")
@@ -73,5 +71,20 @@ class MainActivity : AppCompatActivity() {
         adapter.submitList(userList)
         Log.d("ADAPTER", "Di sini")
         binding.userList.adapter = adapter
+    }
+
+    private fun searchUserData() {
+        with(binding) {
+            searchView.setupWithSearchBar(searchBar)
+            searchView
+                .editText
+                .setOnEditorActionListener { textView, actionId, event ->
+                    searchBar.text = searchView.text
+                    searchView.hide()
+                    USER_ID = "${searchView.text}"
+                    findUser()
+                    false
+                }
+        }
     }
 }
