@@ -1,11 +1,13 @@
 package com.example.githubuserlist
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.githubuserlist.data.response.DetailUserResponse
 import com.example.githubuserlist.data.response.GithubUserResponse
 import com.example.githubuserlist.data.response.ItemsItem
 import com.example.githubuserlist.data.retrofit.ApiConfig
@@ -97,5 +99,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun showClickedUser(userList: ItemsItem) {
         Toast.makeText(this@MainActivity, "${userList.login}", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this@MainActivity, UserDetailActivity::class.java)
+        intent.putExtra(UserDetailActivity.USERNAME, "${userList.login}")
+        startActivity(intent)
     }
 }
