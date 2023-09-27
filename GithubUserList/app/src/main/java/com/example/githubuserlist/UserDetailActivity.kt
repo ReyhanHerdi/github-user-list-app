@@ -26,7 +26,6 @@ class UserDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         findDetailUser()
-        Log.d("USER", "${USERNAME}")
     }
 
     private fun findDetailUser() {
@@ -59,8 +58,7 @@ class UserDetailActivity : AppCompatActivity() {
         binding.followersCount.text = userDetail.followers.toString()
         binding.followingCount.text = userDetail.following.toString()
         Glide.with(this@UserDetailActivity)
-            .load("${userDetail.avatarUrl}")
+            .load(userDetail.avatarUrl)
             .into(binding.userAvatar)
-
     }
 }
