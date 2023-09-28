@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
-        private var USER_ID = "ReyhanHerdi"
+        private var USER_ID = "Github"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,10 +39,12 @@ class MainActivity : AppCompatActivity() {
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.userList.addItemDecoration(itemDecoration)
 
+        findUser()
         searchUserData()
     }
 
     private fun findUser() {
+        showLoading(true)
         val client = ApiConfig.getApiService().getGithubUser(USER_ID)
         client.enqueue(object : Callback<GithubUserResponse> {
             override fun onResponse(
@@ -51,18 +54,17 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
+                        showLoading(false)
                         setUserData(responseBody.items)
                         Log.d("IF", "Sukses")
                     } else {
                         Log.e(TAG, "onFailure: ${response.message()}")
                     }
-
-                } else {
-                    Log.e("LL", "Gagal")
                 }
             }
 
             override fun onFailure(call: Call<GithubUserResponse>, t: Throwable) {
+                showLoading(false)
                 Log.e(TAG, "onFailure = ${t.message}")
             }
         })
@@ -97,8 +99,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
+        }
+    }
+
     private fun showClickedUser(userList: ItemsItem) {
-        Toast.makeText(this@MainActivity, "${userList.login}", Toast.LENGTH_SHORT).show()
         val intent = Intent(this@MainActivity, UserDetailActivity::class.java)
         intent.putExtra(UserDetailActivity.USERNAME, "${userList.login}")
         startActivity(intent)

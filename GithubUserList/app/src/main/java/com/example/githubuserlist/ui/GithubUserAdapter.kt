@@ -2,16 +2,12 @@ package com.example.githubuserlist.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.githubuserlist.data.response.ItemsItem
-import com.example.githubuserlist.databinding.ActivityMainBinding
 import com.example.githubuserlist.databinding.UserListBinding
-import javax.security.auth.callback.Callback
 
 class GithubUserAdapter : ListAdapter<ItemsItem, GithubUserAdapter.MyViewHolder>(DIFF_CALLBACK) {
     private lateinit var onItemClickCallback: OnItemClickCallback
@@ -43,9 +39,7 @@ class GithubUserAdapter : ListAdapter<ItemsItem, GithubUserAdapter.MyViewHolder>
                 .load("${userList.avatarUrl}")
                 .into(binding.userAvatarOnList)
             binding.userNameOnList.text = "${userList.login}"
-            binding.namaLengkapOnList.text = "${userList.followersUrl}"
         }
-
     }
 
     override fun onCreateViewHolder(
