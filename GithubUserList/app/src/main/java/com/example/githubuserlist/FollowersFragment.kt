@@ -69,9 +69,6 @@ class FollowersFragment : Fragment() {
                     } else {
                         Log.e(TAG, "onFailure: ${response.message()}")
                     }
-
-                } else {
-                    Log.e("LL", "Gagal")
                 }
             }
 

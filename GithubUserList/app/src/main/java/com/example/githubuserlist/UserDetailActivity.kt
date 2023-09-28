@@ -65,9 +65,9 @@ class UserDetailActivity : AppCompatActivity() {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         setUserDetailData(responseBody)
+                    } else {
+                        Log.e(TAG, "onFailure: ${response.message()}")
                     }
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
                 }
             }
 
