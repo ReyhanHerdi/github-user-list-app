@@ -1,2 +1,2 @@
 # github-user-list-app
-Praktik android API dan navigation
+Accessing Github API with Retrofit and showing Github user's profile
