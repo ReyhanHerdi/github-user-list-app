@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.StringRes
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.githubuserlist.data.response.DetailUserResponse
 import com.example.githubuserlist.data.retrofit.ApiConfig

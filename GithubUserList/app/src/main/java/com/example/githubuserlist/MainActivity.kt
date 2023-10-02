@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.githubuserlist.data.response.DetailUserResponse
 import com.example.githubuserlist.data.response.GithubUserResponse
 import com.example.githubuserlist.data.response.ItemsItem
 import com.example.githubuserlist.data.retrofit.ApiConfig
@@ -61,6 +59,7 @@ class MainActivity : AppCompatActivity() {
                         Log.e(TAG, "onFailure: ${response.message()}")
                     }
                 }
+
             }
 
             override fun onFailure(call: Call<GithubUserResponse>, t: Throwable) {
@@ -68,7 +67,6 @@ class MainActivity : AppCompatActivity() {
                 Log.e(TAG, "onFailure = ${t.message}")
             }
         })
-
     }
 
     private fun setUserData(userList: List<ItemsItem>) {

@@ -20,7 +20,6 @@ class FollowersViewAdapter : ListAdapter<DetailFollowersResponseItem, FollowersV
             override fun areContentsTheSame(oldItem: DetailFollowersResponseItem, newItem: DetailFollowersResponseItem): Boolean {
                 return oldItem == newItem
             }
-
         }
     }
 
