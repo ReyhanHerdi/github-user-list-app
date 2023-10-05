@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserlist.data.response.GithubUserResponse
@@ -16,7 +17,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -39,6 +40,9 @@ class MainActivity : AppCompatActivity() {
 
         findUser()
         searchUserData()
+
+        binding.fabFavList.setOnClickListener(this)
+        binding.fabDarkMode.setOnClickListener(this)
     }
 
     private fun findUser() {
@@ -107,7 +111,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun showClickedUser(userList: ItemsItem) {
         val intent = Intent(this@MainActivity, UserDetailActivity::class.java)
-        intent.putExtra(UserDetailActivity.USERNAME, "${userList.login}")
+        intent.putExtra(UserDetailActivity.USERNAME, userList.login)
+        intent.putExtra(UserDetailActivity.AVATAR_URL, userList.avatarUrl)
         startActivity(intent)
+    }
+
+    override fun onClick(view: View?) {
+        when(view) {
+            binding.fabFavList -> {
+                val intent = Intent(this@MainActivity, UsersFavoritedActivity::class.java)
+                startActivity(intent)
+            }
+
+            binding.fabDarkMode -> {
+                val darkMode = AppCompatDelegate.getDefaultNightMode()
+                if (darkMode == AppCompatDelegate.MODE_NIGHT_NO) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+            }
+        }
     }
 }

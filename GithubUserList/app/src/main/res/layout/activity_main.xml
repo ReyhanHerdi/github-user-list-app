@@ -12,9 +12,10 @@
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/search_hint"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:hint="@string/search_hint"/>
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <com.google.android.material.search.SearchView
         android:id="@+id/search_view"
@@ -33,6 +34,26 @@
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@id/search_bar"
         app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_dark_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fab_fav_list"
+        android:src="@drawable/baseline_dark_mode_24"
+        android:contentDescription="@string/dark_mode" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_fav_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="@string/github_username"
+        android:src="@drawable/baseline_playlist_add_check_24"/>
 
     <ProgressBar
         android:id="@+id/progress_bar"
