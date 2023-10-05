@@ -1,4 +1,4 @@
-package com.example.githubuserlist
+package com.example.githubuserlist.model
 
 import android.app.Application
 import androidx.lifecycle.LiveData

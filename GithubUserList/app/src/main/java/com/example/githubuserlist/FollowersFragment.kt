@@ -12,8 +12,8 @@ import com.example.githubuserlist.data.response.DetailFollowersResponseItem
 import com.example.githubuserlist.data.response.DetailFollowingResponseItem
 import com.example.githubuserlist.data.retrofit.ApiConfig
 import com.example.githubuserlist.databinding.FragmentFollowersBinding
-import com.example.githubuserlist.ui.FollowersViewAdapter
-import com.example.githubuserlist.ui.FollowingViewAdapter
+import com.example.githubuserlist.ui.adapter.FollowersViewAdapter
+import com.example.githubuserlist.ui.adapter.FollowingViewAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,7 +25,7 @@ class FollowersFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentFollowersBinding.inflate(inflater, container, false)
         return binding.root

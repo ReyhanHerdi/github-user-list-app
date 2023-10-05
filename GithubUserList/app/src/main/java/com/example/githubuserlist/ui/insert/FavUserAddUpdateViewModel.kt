@@ -13,10 +13,6 @@ class FavUserAddUpdateViewModel(application: Application) : ViewModel() {
         mFavoriteUserRepository.insert(favoriteUser)
     }
 
-    fun update(favoriteUser: FavoriteUser) {
-        mFavoriteUserRepository.update(favoriteUser)
-    }
-
     fun delete(favoriteUser: FavoriteUser) {
         mFavoriteUserRepository.delete(favoriteUser)
     }

@@ -1,4 +1,4 @@
-package com.example.githubuserlist.ui
+package com.example.githubuserlist.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -33,12 +33,12 @@ class GithubUserAdapter : ListAdapter<ItemsItem, GithubUserAdapter.MyViewHolder>
         }
     }
 
-    class MyViewHolder(val binding: UserListBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(private val binding: UserListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(userList: ItemsItem) {
             Glide.with(itemView.context)
-                .load("${userList.avatarUrl}")
+                .load(userList.avatarUrl)
                 .into(binding.userAvatarOnList)
-            binding.userNameOnList.text = "${userList.login}"
+            binding.userNameOnList.text = userList.login
         }
     }
 
@@ -50,7 +50,7 @@ class GithubUserAdapter : ListAdapter<ItemsItem, GithubUserAdapter.MyViewHolder>
         return MyViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder:MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val userList = getItem(position)
         holder.bind(userList)
 

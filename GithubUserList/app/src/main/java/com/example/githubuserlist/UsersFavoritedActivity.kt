@@ -3,18 +3,16 @@ package com.example.githubuserlist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserlist.database.FavoriteUser
-import com.example.githubuserlist.databinding.ActivityMainBinding
 import com.example.githubuserlist.databinding.ActivityUsersFavoritedBinding
+import com.example.githubuserlist.helper.SettingPreferences
 import com.example.githubuserlist.helper.ViewModelFactory
-import com.example.githubuserlist.ui.UsersFavoritedAdapter
-import com.example.githubuserlist.ui.insert.FavUserAddUpdateViewModel
+import com.example.githubuserlist.helper.dataStore
+import com.example.githubuserlist.model.DetailUserViewModel
+import com.example.githubuserlist.ui.adapter.UsersFavoritedAdapter
 
 class UsersFavoritedActivity : AppCompatActivity() {
 
@@ -45,7 +43,8 @@ class UsersFavoritedActivity : AppCompatActivity() {
     }
 
     private fun obtainViewModel(activity: AppCompatActivity): DetailUserViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
+        val pref = SettingPreferences.getInstance(application.dataStore)
+        val factory = ViewModelFactory.getInstance(activity.application, pref)
         return ViewModelProvider(activity, factory)[DetailUserViewModel::class.java]
     }
 

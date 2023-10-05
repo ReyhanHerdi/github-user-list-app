@@ -6,13 +6,18 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuserlist.data.response.GithubUserResponse
 import com.example.githubuserlist.data.response.ItemsItem
 import com.example.githubuserlist.data.retrofit.ApiConfig
 import com.example.githubuserlist.databinding.ActivityMainBinding
-import com.example.githubuserlist.ui.GithubUserAdapter
+import com.example.githubuserlist.helper.SettingPreferences
+import com.example.githubuserlist.helper.ViewModelFactory
+import com.example.githubuserlist.helper.dataStore
+import com.example.githubuserlist.model.MainViewModel
+import com.example.githubuserlist.ui.adapter.GithubUserAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,6 +25,7 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
+    private var darkMode: Boolean = true
 
     companion object {
         private const val TAG = "MainActivity"
@@ -42,7 +48,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         searchUserData()
 
         binding.fabFavList.setOnClickListener(this)
-        binding.fabDarkMode.setOnClickListener(this)
+        theme()
     }
 
     private fun findUser() {
@@ -58,7 +64,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     if (responseBody != null) {
                         showLoading(false)
                         setUserData(responseBody.items)
-                        Log.d("IF", "Sukses")
                     } else {
                         Log.e(TAG, "onFailure: ${response.message()}")
                     }
@@ -91,7 +96,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             searchView.setupWithSearchBar(searchBar)
             searchView
                 .editText
-                .setOnEditorActionListener { textView, actionId, event ->
+                .setOnEditorActionListener { _, _, _ ->
                     searchBar.text = searchView.text
                     searchView.hide()
                     USER_ID = "${searchView.text}"
@@ -116,20 +121,29 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         startActivity(intent)
     }
 
+    private fun theme() {
+        val pref = SettingPreferences.getInstance(application.dataStore)
+        val mainViewModel = ViewModelProvider(this, ViewModelFactory(application, pref))[MainViewModel::class.java]
+
+        mainViewModel.getThemeSetings().observe(this) {isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+        }
+
+        binding.fabDarkMode.setOnClickListener {
+            darkMode = !darkMode
+            mainViewModel.saveThemeSetting(darkMode)
+        }
+    }
+
     override fun onClick(view: View?) {
         when(view) {
             binding.fabFavList -> {
                 val intent = Intent(this@MainActivity, UsersFavoritedActivity::class.java)
                 startActivity(intent)
-            }
-
-            binding.fabDarkMode -> {
-                val darkMode = AppCompatDelegate.getDefaultNightMode()
-                if (darkMode == AppCompatDelegate.MODE_NIGHT_NO) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                }
             }
         }
     }

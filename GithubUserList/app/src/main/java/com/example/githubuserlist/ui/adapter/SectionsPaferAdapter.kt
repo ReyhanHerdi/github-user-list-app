@@ -1,4 +1,4 @@
-package com.example.githubuserlist.ui
+package com.example.githubuserlist.ui.adapter
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

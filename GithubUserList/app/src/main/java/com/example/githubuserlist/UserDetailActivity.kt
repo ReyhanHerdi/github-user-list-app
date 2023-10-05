@@ -1,6 +1,5 @@
 package com.example.githubuserlist
 
-import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,10 +11,11 @@ import com.bumptech.glide.Glide
 import com.example.githubuserlist.data.response.DetailUserResponse
 import com.example.githubuserlist.data.retrofit.ApiConfig
 import com.example.githubuserlist.database.FavoriteUser
-import com.example.githubuserlist.database.FavoriteUserDao
 import com.example.githubuserlist.databinding.ActivityUserDetailBinding
+import com.example.githubuserlist.helper.SettingPreferences
 import com.example.githubuserlist.helper.ViewModelFactory
-import com.example.githubuserlist.ui.SectionsPaferAdapter
+import com.example.githubuserlist.helper.dataStore
+import com.example.githubuserlist.ui.adapter.SectionsPaferAdapter
 import com.example.githubuserlist.ui.insert.FavUserAddUpdateViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import retrofit2.Call
@@ -32,8 +32,6 @@ class UserDetailActivity : AppCompatActivity(), View.OnClickListener {
         const val USERNAME = "user_name"
         const val AVATAR_URL = "avatar_url"
         const val EXTRA_NOTE = "extra_note"
-        const val ALERT_DIALOG_CLOSE = 10
-        const val ALERT_DIALOG_DELETE = 20
 
         @StringRes
         private val TAB_TITLES = intArrayOf(
@@ -58,10 +56,10 @@ class UserDetailActivity : AppCompatActivity(), View.OnClickListener {
 
         val sectionsPagerAdapter = SectionsPaferAdapter(this)
         sectionsPagerAdapter.appName = "${intent.getStringExtra(USERNAME)}"
-        val view_pager = binding.viewPager
-        view_pager.adapter = sectionsPagerAdapter
+        val viewPager = binding.viewPager
+        viewPager.adapter = sectionsPagerAdapter
         val tabs = binding.followTab
-        TabLayoutMediator(tabs, view_pager) { tab, position ->
+        TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
 
@@ -76,15 +74,13 @@ class UserDetailActivity : AppCompatActivity(), View.OnClickListener {
             favoriteUser = FavoriteUser()
         }
 
-        val actionBarTitle: String
-        val btnTitle: String
-
         observeData()
         binding.fabFavorite.setOnClickListener(this)
     }
 
     private fun obtainViewModel(activity: AppCompatActivity): FavUserAddUpdateViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
+        val pref = SettingPreferences.getInstance(application.dataStore)
+        val factory = ViewModelFactory.getInstance(activity.application, pref)
         return ViewModelProvider(activity, factory).get(FavUserAddUpdateViewModel::class.java)
     }
 
