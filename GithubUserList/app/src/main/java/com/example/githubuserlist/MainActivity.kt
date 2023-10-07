@@ -147,4 +147,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
+    }
 }

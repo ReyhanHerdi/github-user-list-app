@@ -1,5 +1,6 @@
 package com.example.githubuserlist
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -129,9 +130,11 @@ class UserDetailActivity : AppCompatActivity(), View.OnClickListener {
         binding.userFullName.text = userDetail.name
         binding.followersCount.text = userDetail.followers.toString()
         binding.followingCount.text = userDetail.following.toString()
-        Glide.with(this@UserDetailActivity)
-            .load(userDetail.avatarUrl)
-            .into(binding.userAvatar)
+        if (!isDestroyed && !isFinishing) {
+            Glide.with(this@UserDetailActivity)
+                .load(userDetail.avatarUrl)
+                .into(binding.userAvatar)
+        }
     }
 
     override fun onClick(view: View?) {
@@ -178,5 +181,12 @@ class UserDetailActivity : AppCompatActivity(), View.OnClickListener {
                 isProcessing = false
             }
         }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this@UserDetailActivity, MainActivity::class.java)
+        startActivity(intent)
     }
 }

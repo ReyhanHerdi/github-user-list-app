@@ -3,6 +3,7 @@ package com.example.githubuserlist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ class UsersFavoritedActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("activity favorit", "mulai")
 
         _activityUsersFavoritedBinding = ActivityUsersFavoritedBinding.inflate(layoutInflater)
         setContentView(binding?.root)

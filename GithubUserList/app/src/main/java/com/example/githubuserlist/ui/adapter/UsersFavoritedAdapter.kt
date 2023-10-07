@@ -41,6 +41,7 @@ class UsersFavoritedAdapter : RecyclerView.Adapter<UsersFavoritedAdapter.UsersFa
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(listUsersFavorited[position])
         }
+
     }
     inner class UsersFavoritedViewHolder(private val binding: UserListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(favoriteUser: FavoriteUser) {
